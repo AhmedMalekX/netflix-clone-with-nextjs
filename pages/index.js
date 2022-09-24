@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { Banner } from "../components/Banner/Banner";
 import { Navbar } from "../components/Navbar/Navbar";
+import { Card } from "../components/Card/Card";
 
 export default function Home() {
   return (
@@ -13,14 +14,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar username='test@test.com' />
+      <Navbar username="test@test.com" />
 
       <Banner
         title="Clifford the red dog"
         subTitle="a very cute dog"
         imgUrl="/static/clifford.webp"
       />
-      {/*<Card />*/}
+
+      <Card imgUrl="/static/clifford.webp" size="large" />
+      <Card imgUrl="/static/clifford.webp" size="medium" />
+      <Card imgUrl="/static/clifford.webp" size="small" />
     </div>
   );
 }
