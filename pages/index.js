@@ -5,10 +5,14 @@ import { Banner } from "../components/Banner/Banner";
 import { Navbar } from "../components/Navbar/Navbar";
 import { Card } from "../components/Card/Card";
 import { SectionCards } from "../components/Card/SectionCards";
-import { getVideos } from "../lib/videos";
+import { getPopularVideos, getVideos } from "../lib/videos";
 
-export default function Home() {
-  const disneyVideos = getVideos()
+export default function Home({
+  disneyVideos,
+  productivityVideos,
+  travelVideos,
+  popularVideos,
+}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -17,17 +21,36 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar username="test@test.com" />
+      <div className={styles.main}>
+        <Navbar username="test@test.com" />
 
-      <Banner
-        title="Clifford the red dog"
-        subTitle="a very cute dog"
-        imgUrl="/static/clifford.webp"
-      />
+        <Banner
+          title="Clifford the red dog"
+          subTitle="a very cute dog"
+          imgUrl="/static/clifford.webp"
+        />
 
-      <div className={styles.sectionWrapper}></div>
-      <SectionCards title="Disney" videos={disneyVideos} size="large" />
-      <SectionCards title="Productivity" videos={disneyVideos} size="medium" />
+        <div className={styles.sectionWrapper}></div>
+        <SectionCards title="Disney" videos={disneyVideos} size="large" />
+        <SectionCards title="Travel" videos={travelVideos} size="small" />
+        <SectionCards
+          title="Productivity"
+          videos={productivityVideos}
+          size="medium"
+        />
+        <SectionCards title="Popular" videos={popularVideos} size="small" />
+      </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const disneyVideos = await getVideos("disney");
+  const productivityVideos = await getVideos("productivity");
+  const travelVideos = await getVideos("travel");
+  const popularVideos = await getPopularVideos();
+
+  return {
+    props: { disneyVideos, productivityVideos, travelVideos, popularVideos },
+  };
 }
