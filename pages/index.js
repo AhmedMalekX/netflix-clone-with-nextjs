@@ -4,8 +4,11 @@ import styles from "../styles/Home.module.css";
 import { Banner } from "../components/Banner/Banner";
 import { Navbar } from "../components/Navbar/Navbar";
 import { Card } from "../components/Card/Card";
+import { SectionCards } from "../components/Card/SectionCards";
+import { getVideos } from "../lib/videos";
 
 export default function Home() {
+  const disneyVideos = getVideos()
   return (
     <div className={styles.container}>
       <Head>
@@ -22,9 +25,9 @@ export default function Home() {
         imgUrl="/static/clifford.webp"
       />
 
-      <Card imgUrl="/static/clifford.webp" size="large" />
-      <Card imgUrl="/static/clifford.webp" size="medium" />
-      <Card imgUrl="/static/clifford.webp" size="small" />
+      <div className={styles.sectionWrapper}></div>
+      <SectionCards title="Disney" videos={disneyVideos} size="large" />
+      <SectionCards title="Productivity" videos={disneyVideos} size="medium" />
     </div>
   );
 }

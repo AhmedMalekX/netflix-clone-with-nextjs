@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import cls from "classnames";
 
-export const Card = ({ imgUrl, size = "medium" }) => {
+export const Card = ({ imgUrl, size = "medium", id }) => {
   const [imgSrc, setImgSrc] = useState(imgUrl);
 
   const classMap = {
@@ -20,9 +20,14 @@ export const Card = ({ imgUrl, size = "medium" }) => {
     );
   };
 
+  const scale = id === 0 ? { scaleY: 1.1 } : { scale: 1.1 };
+
   return (
     <div className={styles.container}>
-      <motion.div className={cls(classMap[size], styles.imgMotionWrapper)} whileHover={{ scale: 1.2 }}>
+      <motion.div
+        className={cls(classMap[size], styles.imgMotionWrapper)}
+        whileHover={{ ...scale }}
+      >
         <Image
           src={imgSrc}
           alt="Dummy Image"
