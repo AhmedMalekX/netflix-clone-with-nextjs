@@ -1,21 +1,41 @@
 import styles from "./Navbar.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { magic } from "../../lib/magic-client";
 
-export const Navbar = ({ username }) => {
+export const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [email, setEmail] = useState("");
   const router = useRouter();
 
-  const handleOnClickHome = (e) => {
+  useEffect(() => {
+    // retrievingEmailAddress from magic
+    const retrievingEmailAddress = async () => {
+      try {
+        const { email, publicAddress } = await magic.user.getMetadata();
+        if (email) {
+          setEmail(email);
+        } else {
+          setEmail("Dummy@email.com");
+        }
+      } catch (err) {
+        console.error("Error retrieving email", err);
+      }
+    };
+
+    retrievingEmailAddress();
+  }, []);
+
+  const handleOnClickHome = async (e) => {
     e.preventDefault();
-    router.push("/");
+    await router.push("/");
   };
 
-  const handleOnClickMyList = (e) => {
+  const handleOnClickMyList = async (e) => {
     e.preventDefault();
-    router.push("/browse/my-list");
+    await router.push("/browse/my-list");
   };
 
   const handleShowDropdown = (e) => {
@@ -23,9 +43,22 @@ export const Navbar = ({ username }) => {
     setShowDropdown(!showDropdown);
   };
 
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+
+    try {
+      await magic.user.logout();
+      await router.push('/login')
+    } catch (err) {
+      console.error("Error Logging out", err);
+      await router.push('/login')
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
+        {/*Logo*/}
         <Link href="/" className={styles.logoLink}>
           <div className={styles.logoWrapper}>
             <Image
@@ -36,6 +69,8 @@ export const Navbar = ({ username }) => {
             />
           </div>
         </Link>
+
+        {/*Navbar items*/}
         <ul className={styles.navItems}>
           <li className={styles.navItem} onClick={handleOnClickHome}>
             Home
@@ -47,7 +82,7 @@ export const Navbar = ({ username }) => {
         <nav className={styles.navContainer}>
           <div>
             <button className={styles.usernameBtn} onClick={handleShowDropdown}>
-              <p className={styles.username}>{username}</p>
+              <p className={styles.username}>{email}</p>
               <Image
                 src="/static/expand_more.svg"
                 alt="Expand dropdown"
@@ -58,9 +93,11 @@ export const Navbar = ({ username }) => {
             {showDropdown && (
               <div className={styles.navDropdown}>
                 <div>
-                  <Link href="/login">
-                    <a className={styles.linkName}>Sign out</a>
-                  </Link>
+                  {/*<Link href="/Login">*/}
+                  <a className={styles.linkName} onClick={handleSignOut}>
+                    Sign out
+                  </a>
+                  {/*</Link>*/}
 
                   <div className={styles.lineWrapper}></div>
                 </div>
