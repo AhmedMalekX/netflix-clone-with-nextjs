@@ -1,8 +1,13 @@
 import styles from "./Banner.module.css";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
-export const Banner = ({ title, subTitle, imgUrl }) => {
-  const handleOnPlay = () => {};
+export const Banner = ({ title, subTitle, imgUrl, videoId }) => {
+  const router = useRouter();
+
+  const handleOnPlay = async () => {
+    await router.push(`/video/${encodeURIComponent(videoId)}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -17,10 +22,13 @@ export const Banner = ({ title, subTitle, imgUrl }) => {
 
           <div className={styles.playBtnWrapper}>
             <button className={styles.btnWithIcon} onClick={handleOnPlay}>
-              <Image src='/static/play_arrow.svg' alt='Play Icon' width={32} height={32} />
-              <span className={styles.playText}>
-                Play
-              </span>
+              <Image
+                src="/static/play_arrow.svg"
+                alt="Play Icon"
+                width={32}
+                height={32}
+              />
+              <span className={styles.playText}>Play</span>
             </button>
           </div>
         </div>
