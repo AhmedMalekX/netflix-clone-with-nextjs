@@ -14,7 +14,9 @@ export const Navbar = () => {
     // retrievingEmailAddress from magic
     const retrievingEmailAddress = async () => {
       try {
-        const { email, publicAddress } = await magic.user.getMetadata();
+        const { email } = await magic.user.getMetadata();
+        const didToken = await magic.user.getIdToken();
+
         if (email) {
           setEmail(email);
         } else {
@@ -48,10 +50,10 @@ export const Navbar = () => {
 
     try {
       await magic.user.logout();
-      await router.push('/login')
+      await router.push("/login");
     } catch (err) {
       console.error("Error Logging out", err);
-      await router.push('/login')
+      await router.push("/login");
     }
   };
 

@@ -30,22 +30,31 @@ const Login = () => {
   const handleLoginInWithEmail = async (e) => {
     e.preventDefault();
     if (email) {
-      if (email === "ahmedmalik1w@gmail.com") {
-        // Login with magic and redirect user to dashboard
+      // Login with magic and redirect user to dashboard
 
-        try {
-          setIsLoading(true);
-          const didToken = await magic.auth.loginWithMagicLink({ email });
-          if (didToken) {
+      try {
+        setIsLoading(true);
+        const didToken = await magic.auth.loginWithMagicLink({ email });
+        if (didToken) {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${didToken}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          const loggedInResponse = await response.json();
+          if (loggedInResponse.done) {
             await router.push("/");
+          } else {
+            setIsLoading(false);
+            setUseMsg("Something went wrong logging in");
           }
-        } catch (err) {
-          console.error("Something went wrong", err);
-          setIsLoading(false);
         }
-      } else {
+      } catch (err) {
+        console.error("Something went wrong", err);
         setIsLoading(false);
-        setUseMsg("Something went wrong.");
       }
     } else {
       setIsLoading(false);

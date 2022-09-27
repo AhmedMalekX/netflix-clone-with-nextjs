@@ -1,9 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { Banner } from "../components/Banner/Banner";
 import { Navbar } from "../components/Navbar/Navbar";
-import { Card } from "../components/Card/Card";
 import { SectionCards } from "../components/Card/SectionCards";
 import { getPopularVideos, getVideos } from "../lib/videos";
 
