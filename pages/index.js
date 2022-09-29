@@ -3,13 +3,19 @@ import styles from "../styles/Home.module.css";
 import { Banner } from "../components/Banner/Banner";
 import { Navbar } from "../components/Navbar/Navbar";
 import { SectionCards } from "../components/Card/SectionCards";
-import { getPopularVideos, getVideos } from "../lib/videos";
+import {
+  getPopularVideos,
+  getVideos,
+  getWatchItAgainVideos,
+} from "../lib/videos";
+import { redirectUser } from "../utils/redirectUser";
 
 export default function Home({
   disneyVideos,
   productivityVideos,
   travelVideos,
   popularVideos,
+  watchItAgainVideos,
 }) {
   return (
     <div className={styles.container}>
@@ -33,6 +39,11 @@ export default function Home({
 
         <div className={styles.sectionWrapper}></div>
         <SectionCards title="Disney" videos={disneyVideos} size="large" />
+        <SectionCards
+          title="Watch it again"
+          videos={watchItAgainVideos}
+          size="small"
+        />
         <SectionCards title="Travel" videos={travelVideos} size="small" />
         <SectionCards
           title="Productivity"
@@ -45,13 +56,31 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const { userId, token } = await redirectUser(context);
+
+  if (!userId) {
+    return {
+      props: {},
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
   const disneyVideos = await getVideos("disney");
   const productivityVideos = await getVideos("productivity");
   const travelVideos = await getVideos("travel");
   const popularVideos = await getPopularVideos();
 
   return {
-    props: { disneyVideos, productivityVideos, travelVideos, popularVideos },
+    props: {
+      disneyVideos,
+      productivityVideos,
+      travelVideos,
+      popularVideos,
+      watchItAgainVideos,
+    },
   };
 }
