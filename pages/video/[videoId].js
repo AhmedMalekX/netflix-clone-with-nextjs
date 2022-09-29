@@ -77,9 +77,7 @@ const Video = ({ video }) => {
 
     const favourited = val ? 1 : 0;
 
-    const response = await runRatingServices(favourited);
-
-    console.log("data", await response.json());
+    await runRatingServices(favourited);
   };
   const handleToggleDislike = async () => {
     const val = !toggleDisLike;
@@ -89,9 +87,7 @@ const Video = ({ video }) => {
 
     const favourited = val ? 0 : 1;
 
-    const response = await runRatingServices(favourited);
-
-    console.log("data", await response.json());
+    await runRatingServices(favourited);
   };
 
   return (
