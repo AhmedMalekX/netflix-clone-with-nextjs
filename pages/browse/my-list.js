@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { Navbar } from "../../components/Navbar/Navbar";
-
 import { SectionCards } from "../../components/Card/SectionCards";
 import { redirectUser } from "../../utils/redirectUser";
 import { getMyList } from "../../lib/videos";

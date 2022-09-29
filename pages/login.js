@@ -1,10 +1,10 @@
 import Head from "next/head";
-import styles from "../styles/Login.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { magic } from "../lib/magic-client";
+import styles from "../styles/Login.module.css";
 
 const Login = () => {
   const [useMsg, setUseMsg] = useState("");

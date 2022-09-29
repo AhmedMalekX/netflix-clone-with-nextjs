@@ -1,12 +1,12 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Modal from "react-modal";
-import styles from "../../styles/Video.module.css";
-import cls from "classnames";
 import { getYtVideoById } from "../../lib/videos";
 import { Navbar } from "../../components/Navbar/Navbar";
 import Like from "../../components/icons/like-icon";
 import DisLike from "../../components/icons/dislike-icon";
-import { useEffect, useState } from "react";
+import cls from "classnames";
+import styles from "../../styles/Video.module.css";
 
 Modal.setAppElement("#__next");
 

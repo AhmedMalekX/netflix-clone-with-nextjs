@@ -1,8 +1,8 @@
-import styles from "./card.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import cls from "classnames";
+import styles from "./card.module.css";
 
 export const Card = (props) => {
   const {

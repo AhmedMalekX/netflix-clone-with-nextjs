@@ -10,41 +10,43 @@ export const Navbar = () => {
   const [username, setUsername] = useState("");
   const [didToken, setDidToken] = useState("");
   const router = useRouter();
-  
+
   useEffect(() => {
-    const applyUsernameInNav = async () => {
-      try {
-        const { email, issuer } = await magic.user.getMetadata();
-        const didToken = await magic.user.getIdToken();
-        if (email) {
-          setUsername(email);
-          setDidToken(didToken);
+    (async function () {
+      const applyUsernameInNav = async () => {
+        try {
+          const { email, issuer } = await magic.user.getMetadata();
+          const didToken = await magic.user.getIdToken();
+          if (email) {
+            setUsername(email);
+            setDidToken(didToken);
+          }
+        } catch (error) {
+          console.error("Error retrieving email", error);
         }
-      } catch (error) {
-        console.error("Error retrieving email", error);
-      }
-    };
-    applyUsernameInNav();
+      };
+      await applyUsernameInNav();
+    })();
   }, []);
-  
-  const handleOnClickHome = (e) => {
+
+  const handleOnClickHome = async (e) => {
     e.preventDefault();
-    router.push("/");
+    await router.push("/");
   };
-  
-  const handleOnClickMyList = (e) => {
+
+  const handleOnClickMyList = async (e) => {
     e.preventDefault();
-    router.push("/browse/my-list");
+    await router.push("/browse/my-list");
   };
-  
-  const handleShowDropdown = (e) => {
+
+  const handleShowDropdown = async (e) => {
     e.preventDefault();
     setShowDropdown(!showDropdown);
   };
-  
+
   const handleSignout = async (e) => {
     e.preventDefault();
-    
+
     try {
       const response = await fetch("/api/logout", {
         method: "POST",
@@ -53,14 +55,14 @@ export const Navbar = () => {
           "Content-Type": "application/json",
         },
       });
-      
+
       const res = await response.json();
     } catch (error) {
       console.error("Error logging out", error);
       await router.push("/login");
     }
   };
-  
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
@@ -76,7 +78,7 @@ export const Navbar = () => {
             </div>
           </a>
         </Link>
-        
+
         <ul className={styles.navItems}>
           <li className={styles.navItem} onClick={handleOnClickHome}>
             Home
@@ -97,7 +99,7 @@ export const Navbar = () => {
                 height="24px"
               />
             </button>
-            
+
             {showDropdown && (
               <div className={styles.navDropdown}>
                 <div>

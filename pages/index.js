@@ -1,5 +1,4 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import { Banner } from "../components/Banner/Banner";
 import { Navbar } from "../components/Navbar/Navbar";
 import { SectionCards } from "../components/Card/SectionCards";
@@ -9,6 +8,7 @@ import {
   getWatchItAgainVideos,
 } from "../lib/videos";
 import { redirectUser } from "../utils/redirectUser";
+import styles from "../styles/Home.module.css";
 
 export default function Home({
   disneyVideos,
@@ -31,7 +31,7 @@ export default function Home({
 
         {/*Main Banner*/}
         <Banner
-          videoId="bKh2G73gCCs"
+          videoId="4zH5iYM4wJo"
           title="Clifford the red dog"
           subTitle="a very cute dog"
           imgUrl="/static/clifford.webp"

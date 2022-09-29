@@ -2,7 +2,6 @@ import { createNewUser, isNewUser } from "../../lib/db/hasura";
 import { setTokenCookie } from "../../lib/cookies";
 import { magicAdmin } from "../../lib/magic";
 import jwt from "jsonwebtoken";
-import { magic } from "../../lib/magic-client";
 
 export default async function login(req, res) {
   if (req.method === "POST") {
@@ -11,8 +10,6 @@ export default async function login(req, res) {
       const didToken = auth ? auth.substr(7) : "";
       await magicAdmin.token.validate(didToken);
       const metadata = await magicAdmin.users.getMetadataByToken(didToken);
-
-      console.log({ metadata });
 
       const token = jwt.sign(
         {
