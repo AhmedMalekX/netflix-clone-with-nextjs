@@ -14,7 +14,6 @@ const nextConfig = {
       "https://settled-roughy-81.hasura.app/v1/graphql",
     MAGIC_ADMIN_API_KEYS: "sk_live_76184C5E6293C2C1",
     JWT_SECRET: "thisissupersecret123456789!@#$%^&*()_",
-    DEVELOPMENT: true,
   },
 };
 
